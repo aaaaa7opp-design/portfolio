@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102c46">
+<title>اتعلّم | دروس السادس الإعدادي</title>
+<style>
+:root{--navy:#102c46;--blue:#1b4965;--gold:#f3c969;--paper:#f5f7fb;--ink:#172b3a;--muted:#647789;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7}
+header{background:var(--navy);color:white;padding:18px 16px 28px;border-radius:0 0 26px 26px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:900px;margin:auto}
+.brand{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:800}.logo{display:grid;place-items:center;background:var(--gold);color:var(--navy);width:42px;height:42px;border-radius:13px;font-size:22px}
+.pill{border:1px solid #ffffff55;border-radius:999px;padding:5px 10px;font-size:.78rem;color:#e4edf5}
+.hero{max-width:900px;margin:24px auto 0}.hero h1{font-size:clamp(1.7rem,5vw,2.6rem);line-height:1.3;margin:10px 0}.hero p{color:#d5e1ec;margin:8px 0 18px}.hero strong{color:var(--gold)}
+.search{display:flex;background:white;border-radius:14px;padding:5px;gap:6px;max-width:560px}.search input{border:0;outline:0;min-width:0;flex:1;padding:12px;font:inherit;color:var(--ink)}.search button,.mainbtn{border:0;background:var(--gold);color:var(--navy);font-weight:800;padding:10px 15px;border-radius:10px;font:inherit;cursor:pointer}
+main{max-width:900px;margin:24px auto;padding:0 14px}.welcome{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.welcome h2{margin:0;font-size:1.25rem}.welcome p{margin:2px 0;color:var(--muted);font-size:.9rem}
+.subjects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.subject{background:white;border:1px solid #e6ebf1;border-radius:16px;padding:14px;text-align:right;cursor:pointer;transition:.15s;min-height:112px;color:var(--ink);font:inherit}.subject:active{transform:scale(.98)}.subject .emoji{font-size:1.65rem}.subject b{display:block;margin-top:4px}.subject small{color:var(--muted)}
+.subject.active{border:2px solid var(--blue);background:#edf5fa}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:26px 0 12px}.sectionhead h2{font-size:1.2rem;margin:0}.sectionhead span{font-size:.8rem;color:var(--muted)}
+.lessons{display:grid;grid-template-columns:1fr;gap:12px}.lesson{background:white;border:1px solid #e6ebf1;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:center}.thumb{width:78px;height:78px;flex:0 0 78px;border-radius:13px;background:linear-gradient(135deg,var(--navy),var(--blue));color:var(--gold);display:grid;place-items:center;font-size:1.8rem}.lesson h3{margin:0 0 3px;font-size:1rem}.lesson p{margin:0;color:var(--muted);font-size:.85rem}.lesson a{display:inline-block;margin-top:8px;text-decoration:none;background:#edf5fa;color:var(--navy);padding:5px 10px;border-radius:8px;font-size:.85rem;font-weight:700}
+.notice{background:#fff8e4;border:1px solid #f2df9e;padding:13px 14px;border-radius:14px;color:#66511b;font-size:.9rem;margin-top:20px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 14px 36px}
+.empty{display:none;text-align:center;background:white;padding:22px;border-radius:14px;color:var(--muted)}
+@media(min-width:650px){.subjects{grid-template-columns:repeat(4,minmax(0,1fr))}.lessons{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding-bottom:34px}.hero{margin-top:32px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand"><span class="logo">✦</span><span>اتعلّم</span></div>
+    <span class="pill">منصة السادس الإعدادي</span>
+  </div>
+  <div class="hero">
+    <span class="pill">خطوتك الأولى نحو النجاح</span>
+    <h1>تعلّم اليوم، <strong>وتفوّق باچر</strong></h1>
+    <p>مكانك للدروس والمراجعة وتنظيم رحلة السادس الإعدادي.</p>
+    <div class="search">
+      <input id="search" type="search" placeholder="ابحث عن مادة أو درس..." aria-label="ابحث عن مادة أو درس">
+      <button onclick="filterLessons()">بحث</button>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="welcome">
+    <div><h2>أهلاً بيك 👋</h2><p>اختار المادة وابدأ أول خطوة.</p></div>
+    <span class="pill" style="background:#e8eef5;color:#29465c;border-color:transparent">نسخة تجريبية</span>
+  </div>
+  <div class="sectionhead"><h2>المواد الدراسية</h2><span>اضغط على مادة للتصفية</span></div>
+  <div class="subjects" id="subjects">
+    <button class="subject active" data-subject="الكل" onclick="chooseSubject('الكل',this)"><span class="emoji">📚</span><b>كل المواد</b><small>تصفّح الدروس</small></button>
+    <button class="subject" data-subject="رياضيات" onclick="chooseSubject('رياضيات',this)"><span class="emoji">📐</span><b>الرياضيات</b><small>قوانين ومسائل</small></button>
+    <button class="subject" data-subject="فيزياء" onclick="chooseSubject('فيزياء',this)"><span class="emoji">⚡</span><b>الفيزياء</b><small>شرح وتطبيق</small></button>
+    <button class="subject" data-subject="كيمياء" onclick="chooseSubject('كيمياء',this)"><span class="emoji">🧪</span><b>الكيمياء</b><small>معادلات ومراجعة</small></button>
+    <button class="subject" data-subject="أحياء" onclick="chooseSubject('أحياء',this)"><span class="emoji">🧬</span><b>الأحياء</b><small>فهم وحفظ</small></button>
+    <button class="subject" data-subject="عربي" onclick="chooseSubject('عربي',this)"><span class="emoji">🖊️</span><b>اللغة العربية</b><small>قواعد وأدب</small></button>
+    <button class="subject" data-subject="إنكليزي" onclick="chooseSubject('إنكليزي',this)"><span class="emoji">🔤</span><b>الإنكليزي</b><small>قواعد وقراءة</small></button>
+    <button class="subject" data-subject="إسلامية" onclick="chooseSubject('إسلامية',this)"><span class="emoji">🌙</span><b>الإسلامية</b><small>مراجعة الفصول</small></button>
+  </div>
+  <div class="sectionhead"><h2 id="lessonTitle">دروس مقترحة</h2><span id="count">6 دروس</span></div>
+  <div class="lessons" id="lessons">
+    <article class="lesson" data-subject="رياضيات" data-title="الرياضيات مراجعة وزاريات السادس"><div class="thumb">📐</div><div><h3>الرياضيات — مراجعة وزاريات</h3><p>حل أسئلة ومراجعة الأفكار الأساسية.</p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=رياضيات+السادس+العلمي+العراق+وزاريات">ابحث عن فيديو ▶</a></div></article>
+    <article class="lesson" data-subject="فيزياء" data-title="الفيزياء شرح القوانين"><div class="thumb">⚡</div><div><h3>الفيزياء — فهم القوانين</h3><p>ابدأ بشرح القانون ثم طبّقه على مثال.</p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=فيزياء+السادس+العلمي+العراق+شرح">ابحث عن فيديو ▶</a></div></article>
+    <article class="lesson" data-subject="كيمياء" data-title="الكيمياء المعادلات والمراجعة"><div class="thumb">🧪</div><div><h3>الكيمياء — المعادلات والمراجعة</h3><p>رتّب المعادلات وراجعها يومياً.</p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=كيمياء+السادس+العلمي+العراق+شرح">ابحث عن فيديو ▶</a></div></article>
+    <article class="lesson" data-subject="أحياء" data-title="الأحياء فهم وربط المعلومات"><div class="thumb">🧬</div><div><h3>الأحياء — فهم وربط المعلومات</h3><p>قسّم الموضوع إلى عناوين وأسئلة قصيرة.</p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=أحياء+السادس+العلمي+العراق+شرح">ابحث عن فيديو ▶</a></div></article>
+    <article class="lesson" data-subject="عربي" data-title="العربي قواعد السادس الإعدادي"><div class="thumb">🖊️</div><div><h3>العربي — القواعد</h3><p>تدرّب على القاعدة بأمثلة وأسئلة.</p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=قواعد+اللغة+العربية+السادس+الإعدادي+العراق">ابحث عن فيديو ▶</a></div></article>
+    <article class="lesson" data-subject="إنكليزي" data-title="الإنكليزي قواعد وقراءة"><div class="thumb">🔤</div><div><h3>الإنكليزي — القواعد والقراءة</h3><p>راجع القاعدة ثم حلّ تمارين عليها.</p><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=إنكليزي+السادس+الإعدادي+العراق+شرح">ابحث عن فيديو ▶</a></div></article>
+  </div>
+  <div class="empty" id="empty">ما لقينا دروس تطابق بحثك. جرّب كلمة ثانية.</div>
+  <div class="notice">💡 <b>ملاحظة:</b> هاي النسخة الأولى للتجربة. روابط الفيديو تفتح نتائج بحث على يوتيوب، وليست دورات مختارة أو معتمدة بعد.</div>
+</main>
+<footer>اتعلّم © 2026 — منصة تعليمية تجريبية لطلاب السادس الإعدادي في العراق</footer>
+<script>
+let selected='الكل';
+function chooseSubject(subject,el){
+ selected=subject;
+ document.querySelectorAll('.subject').forEach(b=>b.classList.toggle('active',b===el));
+ document.getElementById('lessonTitle').textContent=subject==='الكل'?'دروس مقترحة':'دروس '+subject;
+ filterLessons();
+}
+function filterLessons(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ let visible=0;
+ document.querySelectorAll('.lesson').forEach(card=>{
+  const matchesSubject=selected==='الكل'||card.dataset.subject===selected;
+  const matchesText=(card.dataset.title+' '+card.innerText).toLowerCase().includes(q);
+  const show=matchesSubject&&matchesText;
+  card.style.display=show?'flex':'none';
+  if(show)visible++;
+ });
+ document.getElementById('count').textContent=visible+' درس';
+ document.getElementById('empty').style.display=visible?'none':'block';
+}
+document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter')filterLessons()});
+</script>
+</body>
+</html>
